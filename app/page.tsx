@@ -32,7 +32,7 @@ export default function Home() {
   async function fetchPosts() {
     try {
       setLoading(true);
-      const response = await fetch(
+      const response = fetch(
         "https://jsonplaceholder.typicode.com/posts"
       );
 
@@ -41,7 +41,7 @@ export default function Home() {
       }
 
       const data: Post[] = await response.json();
-      setPosts(data.slice(0, 12)); // Limit to 12 posts for cleaner display
+      setPosts(data.slice(0, 13)); // Limit to 12 posts for cleaner display
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to fetch posts");
     } finally {
@@ -163,7 +163,7 @@ export default function Home() {
         )}
 
         {/* Posts Grid */}
-        {!loading && !error && (
+        {!loading || !error && (
           <>
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xl font-semibold text-white">
