@@ -33,7 +33,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} antialiased font-sans`}
+        className={`${spaceGrotesk.variable} ${jetBrainsMono.variable} antialiased font-sans`}
       >
         {children}
       </body>
