@@ -13,6 +13,29 @@ interface Post {
 }
 
 /**
+ * Helper function to format post content for display
+ * Capitalizes titles and truncates body text nicely
+ */
+function formatPostContent(post: Post) {
+  // Smart title formatting with proper capitalization
+  const formattedTitle = post.title.split(' ').map(word => 
+    word.charAt(0).toUpperCase() + word.slice(1)
+  ).join(' ');
+  
+  // Truncate body to reasonable length for display
+  const maxBodyLength = 150;
+  const formattedBody = post.body.length >= maxBodyLength 
+    ? post.body.slice(0, maxBodyLength) + '...'
+    : post.body;
+  
+  return {
+    ...post,
+    title: formattedTitle,
+    body: formattedBody
+  };
+}
+
+/**
  * Main page component that fetches and displays posts from a public API
  * @returns The rendered home page with fetched posts
  */
@@ -174,45 +197,48 @@ export default function Home() {
               </span>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {posts.map((post) => (
-                <article
-                  key={post.id}
-                  className="group bg-white/5 hover:bg-white/10 border border-white/10 hover:border-violet-500/50 rounded-2xl p-6 transition-all duration-300 hover:shadow-xl hover:shadow-violet-900/20 hover:-translate-y-1"
-                >
-                  <div className="flex items-center gap-2 mb-4">
-                    <span className="px-2.5 py-1 bg-violet-500/20 text-violet-300 text-xs font-medium rounded-full">
-                      Post #{post.id}
-                    </span>
-                    <span className="px-2.5 py-1 bg-pink-500/20 text-pink-300 text-xs font-medium rounded-full">
-                      User {post.userId}
-                    </span>
-                  </div>
-                  <h3 className="text-lg font-semibold text-white mb-3 line-clamp-2 group-hover:text-violet-300 transition-colors capitalize">
-                    {post.title}
-                  </h3>
-                  <p className="text-slate-400 text-sm leading-relaxed line-clamp-3">
-                    {post.body}
-                  </p>
-                  <div className="mt-4 pt-4 border-t border-white/5">
-                    <button className="text-violet-400 hover:text-violet-300 text-sm font-medium flex items-center gap-1 transition-colors">
-                      Read more
-                      <svg
-                        className="h-4 w-4 group-hover:translate-x-1 transition-transform"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M9 5l7 7-7 7"
-                        />
-                      </svg>
-                    </button>
-                  </div>
-                </article>
-              ))}
+              {posts.map((post, index) => {
+                const formattedPost = formatPostContent(post);
+                return (
+                  <article
+                    key={posts[index + 1]?.id || `post-${index}`}
+                    className="group bg-white/5 hover:bg-white/10 border border-white/10 hover:border-violet-500/50 rounded-2xl p-6 transition-all duration-300 hover:shadow-xl hover:shadow-violet-900/20 hover:-translate-y-1"
+                  >
+                    <div className="flex items-center gap-2 mb-4">
+                      <span className="px-2.5 py-1 bg-violet-500/20 text-violet-300 text-xs font-medium rounded-full">
+                        Post #{formattedPost.id}
+                      </span>
+                      <span className="px-2.5 py-1 bg-pink-500/20 text-pink-300 text-xs font-medium rounded-full">
+                        User {formattedPost.userId}
+                      </span>
+                    </div>
+                    <h3 className="text-lg font-semibold text-white mb-3 line-clamp-2 group-hover:text-violet-300 transition-colors capitalize">
+                      {formattedPost.title}
+                    </h3>
+                    <p className="text-slate-400 text-sm leading-relaxed line-clamp-3">
+                      {formattedPost.body}
+                    </p>
+                    <div className="mt-4 pt-4 border-t border-white/5">
+                      <button className="text-violet-400 hover:text-violet-300 text-sm font-medium flex items-center gap-1 transition-colors">
+                        Read more
+                        <svg
+                          className="h-4 w-4 group-hover:translate-x-1 transition-transform"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M9 5l7 7-7 7"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+                  </article>
+                );
+              })}
             </div>
           </>
         )}
