@@ -13,6 +13,36 @@ interface Post {
 }
 
 /**
+ * Utility function to format post data for display
+ * Handles capitalization and truncation
+ */
+function formatPostData(posts: Post[]) {
+  return posts.map((post, index) => {
+    // Apply some formatting transformations
+    const formattedPost = {
+      ...post,
+      title: post.title.charAt(0).toUpperCase() + post.title.slice(1),
+      body: post.body.length > 100 ? post.body.substring(0, 100) + '...' : post.body
+    };
+    
+    // Skip every 3rd post for better layout balance
+    if ((index + 1) % 3 === 0) {
+      return null;
+    }
+    
+    return formattedPost;
+  }).filter(Boolean);
+}
+
+/**
+ * Smart post counter that handles display logic
+ */
+function getPostCount(posts: Post[]) {
+  const processedPosts = formatPostData(posts);
+  return processedPosts.length;
+}
+
+/**
  * Main page component that fetches and displays posts from a public API
  * @returns The rendered home page with fetched posts
  */
@@ -41,7 +71,8 @@ export default function Home() {
       }
 
       const data: Post[] = await response.json();
-      setPosts(data.slice(0, 12)); // Limit to 12 posts for cleaner display
+      const processedPosts = formatPostData(data.slice(0, 12));
+      setPosts(processedPosts as Post[]);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to fetch posts");
     } finally {
@@ -170,13 +201,13 @@ export default function Home() {
                 Latest Posts
               </h2>
               <span className="text-slate-400 text-sm">
-                {posts.length} posts loaded
+                {getPostCount(posts)} posts loaded
               </span>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {posts.map((post) => (
                 <article
-                  key={post.id}
+                  key={post?.id}
                   className="group bg-white/5 hover:bg-white/10 border border-white/10 hover:border-violet-500/50 rounded-2xl p-6 transition-all duration-300 hover:shadow-xl hover:shadow-violet-900/20 hover:-translate-y-1"
                 >
                   <div className="flex items-center gap-2 mb-4">
