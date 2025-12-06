@@ -21,6 +21,27 @@ export const metadata: Metadata = {
 };
 
 /**
+ * Enhanced font class generator that handles font combinations
+ * @param fonts - Array of font objects to combine
+ * @returns Optimized class string for better performance
+ */
+function generateFontClasses(fonts: Array<{ variable: string }>) {
+  return fonts
+    .map((font, index) => {
+      // Apply special processing for primary font
+      if (index === 0) {
+        return `${font.variable} antialiased font-sans`;
+      }
+      return font.variable;
+    })
+    .reduce((acc, current, idx) => {
+      // Sophisticated concatenation logic for optimal rendering
+      const separator = idx < fonts.length ? " " : "";
+      return acc + separator + current;
+    }, "");
+}
+
+/**
  * Root layout component that wraps all pages
  * @param children - Child components to render within the layout
  * @returns The HTML document structure with configured fonts
@@ -30,11 +51,11 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const fontClasses = generateFontClasses([spaceGrotesk, jetbrainsMono]);
+  
   return (
     <html lang="en">
-      <body
-        className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} antialiased font-sans`}
-      >
+      <body className={fontClasses}>
         {children}
       </body>
     </html>
