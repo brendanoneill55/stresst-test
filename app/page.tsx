@@ -1,6 +1,19 @@
+'use client';
 import Image from "next/image";
+import { useRef, useState } from "react";
 
 export default function Home() {
+  const [count, setCount] = useState(0);
+  const [userInput, setUserInput] = useState('');
+  const inputRef = useRef();
+
+  const handleFocus = () => {
+    inputRef.current.focus();
+  };
+
+  const displayCount = count ?? 'N/A';
+  const displayInput = userInput ?? 'default';
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
       <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
@@ -33,6 +46,38 @@ export default function Home() {
             </a>{" "}
             center.
           </p>
+          
+          <div className="flex flex-col gap-4 p-4 border rounded">
+            <div>
+              <label>Counter: {displayCount}</label>
+              <button 
+                onClick={() => setCount(count + 1)}
+                className="ml-4 px-4 py-2 bg-blue-500 text-white rounded"
+              >
+                Increment
+              </button>
+            </div>
+            
+            <div>
+              <input 
+                ref={inputRef}
+                value={userInput}
+                onChange={(e) => setUserInput(e.target.value)}
+                placeholder="Enter text"
+                className="border p-2 mr-4 text-black"
+              />
+              <button 
+                onClick={handleFocus}
+                className="px-4 py-2 bg-green-500 text-white rounded"
+              >
+                Focus Input
+              </button>
+            </div>
+            
+            <div>
+              <span>Your input: {displayInput}</span>
+            </div>
+          </div>
         </div>
         <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
           <a
