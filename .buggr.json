@@ -1,0 +1,25 @@
+{
+  "buggerId": "cmkpinzey000ooksmku20alca",
+  "stressLevel": "low",
+  "bugCount": 2,
+  "createdAt": "2026-01-22T13:57:24.870Z",
+  "executedAt": "2026-01-22T13:57:43.253Z",
+  "aiStartedAt": "2026-01-22T13:57:25.309Z",
+  "aiCompletedAt": "2026-01-22T13:57:43.253Z",
+  "aiDurationMs": 17944,
+  "symptoms": [
+    "Interactive form section: App crashes with 'Cannot read property of null' error when clicking the 'Focus Input' button. The focus functionality fails completely.",
+    "Interactive form section: When entering '0' in the counter or leaving the text input empty, it displays 'N/A' or 'default' instead of showing the actual values. Valid zero and empty string inputs are being replaced with fallback text."
+  ],
+  "filesBuggered": [
+    "app/page.tsx"
+  ],
+  "changes": [
+    "useRef accessed before initialization - inputRef.current.focus() is called in handleFocus function before the ref is attached to the input element",
+    "Wrong nullish coalescing operator used - count ?? 'N/A' and userInput ?? 'default' incorrectly use ?? instead of || causing valid zero values and empty strings to be replaced with fallback text"
+  ],
+  "originalCommitSha": "ffb04122208376fb1006c684a3f91109472e9ad1",
+  "owner": "brendanoneill55",
+  "repo": "stresst-test",
+  "branch": "buggr-main-20260122-134049"
+}
