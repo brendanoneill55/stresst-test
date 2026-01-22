@@ -1,0 +1,25 @@
+{
+  "buggerId": "cmkpiptt2000soksmnmqvgxnp",
+  "stressLevel": "low",
+  "bugCount": 2,
+  "createdAt": "2026-01-22T13:58:47.201Z",
+  "executedAt": "2026-01-22T13:59:09.297Z",
+  "aiStartedAt": "2026-01-22T13:58:47.596Z",
+  "aiCompletedAt": "2026-01-22T13:59:09.297Z",
+  "aiDurationMs": 21701,
+  "symptoms": [
+    "Task Management section: When editing a task, the input field appears in a different row than expected and form values show up in wrong tasks after saving",
+    "Service Status section: Active services display as 'Inactive' and inactive services show as 'Active' - all status labels are backwards"
+  ],
+  "filesBuggered": [
+    "app/page.tsx"
+  ],
+  "changes": [
+    "Used Math.floor(Math.random() * 1000) as React key instead of stable item.id, causing duplicate keys and rendering issues when editing tasks",
+    "Swapped ternary branches in status display - item.active ? 'Inactive' : 'Active' shows opposite status labels"
+  ],
+  "originalCommitSha": "ffb04122208376fb1006c684a3f91109472e9ad1",
+  "owner": "brendanoneill55",
+  "repo": "stresst-test",
+  "branch": "buggr-main-20260122-135844"
+}
